@@ -1,0 +1,5 @@
+C:/Users/Alex/Documents/GitHub/OptimizationMethods/simplex-method/simplex-method/out/build/x64-Debug/CMakeFiles/edit_cache.dir
+C:/Users/Alex/Documents/GitHub/OptimizationMethods/simplex-method/simplex-method/out/build/x64-Debug/CMakeFiles/rebuild_cache.dir
+C:/Users/Alex/Documents/GitHub/OptimizationMethods/simplex-method/simplex-method/out/build/x64-Debug/simplex-method/CMakeFiles/simplex-method.dir
+C:/Users/Alex/Documents/GitHub/OptimizationMethods/simplex-method/simplex-method/out/build/x64-Debug/simplex-method/CMakeFiles/edit_cache.dir
+C:/Users/Alex/Documents/GitHub/OptimizationMethods/simplex-method/simplex-method/out/build/x64-Debug/simplex-method/CMakeFiles/rebuild_cache.dir

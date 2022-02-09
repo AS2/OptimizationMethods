@@ -1,0 +1,10 @@
+n_size = 6
+min_coef = 2 -3 3 0 1 3
+min_freeValue = 0
+equal = 3 0 0 1 2 0 3
+equal = 0 0 0 0 2 0 4
+equal = 0 2 2 5 0 0 5
+more_equal = 1 -2 -3 0 0 0 6
+more_equal = 8 2 -1 0 0 0 7
+less_equal = 2 -2 1 3 0 -1 8
+not_neg_indexes = 1 3 5
