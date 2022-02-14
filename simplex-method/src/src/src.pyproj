@@ -21,7 +21,22 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="brute_force.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="canon_task_manager.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="cormen_canon_old_stuff.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="dual_task_manager.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="src.py" />
+    <Compile Include="standart_task_manager.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="task_manager.py" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
