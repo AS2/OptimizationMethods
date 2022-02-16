@@ -87,7 +87,9 @@ def simplex(N: list, B: list, A: list, b: list, c: list, v: int):
         e = -1
         for j in N:
             if c[j] > 0:
-                e = j
+                # ПРАВИЛО БЛЕНДА : ВЫБИРАЕМ НАИМЕНЬШИЙ ИНДЕКС НЕБАЗИСНОГО ЭЛЕМЕНТА НА ВХОД
+                if (e != -1 and j < e) or e == -1:
+                    e = j
         if e == -1:
             break
                 
