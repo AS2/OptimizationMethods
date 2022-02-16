@@ -24,7 +24,7 @@ def cormens_parse_to_canon(A : list, b : list, c : list, v : float, limSigns : l
             A_c.append([A[i][j] * -1 for j in range(len(A[i]))])
             b_c.append(float(b[i]) * -1)
         elif limSigns[i] == "=":
-            A_c.append([A[i][j] * -1 for j in range(len(A[i]))])
+            A_c.append([A[i][j] for j in range(len(A[i]))])
             b_c.append(float(b[i]))
             A_c.append([A[i][j] * -1 for j in range(len(A[i]))])
             b_c.append(float(b[i]) * -1)

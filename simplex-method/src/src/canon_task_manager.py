@@ -12,6 +12,8 @@ def parse_to_canon(A : list, b : list, c : list, v : float, limSigns : list, ext
     # init matrixes and vectors
     A_c = copyMatr(A)
     b_c = copyVec(b)
+    N = list()
+    B = list()
     c_c = list()
     v_c = 0
     originalSize = len(c)
@@ -28,9 +30,11 @@ def parse_to_canon(A : list, b : list, c : list, v : float, limSigns : list, ext
     # second, correct all limits expressions
     for i in range(len(limSigns)):
         if limSigns[i] == "<=":
+            B.append(len(c_c))
             addSupportiveBasicValue(A_c, i, 1)
             c_c.append(0)
         elif limSigns[i] == ">=":
+            B.append(len(c_c))
             addSupportiveBasicValue(A_c, i, -1)
             c_c.append(0)
 
@@ -42,7 +46,10 @@ def parse_to_canon(A : list, b : list, c : list, v : float, limSigns : list, ext
             c_c.append(-1 * c_c[i])
             originalVars.append([i, i, len(c_c) - 1])
 
-    return A_c, b_c, c_c, v_c, originalSize, originalVars
+    for i in range(len(c_c)):
+        if i not in B:
+            N.append(i)
+    return N, B, A_c, b_c, c_c, v_c, originalSize, originalVars
 
 def print_task_as_canon(A : list, b : list, c : list, v : float):
     # BUILD TARGET FUNC
