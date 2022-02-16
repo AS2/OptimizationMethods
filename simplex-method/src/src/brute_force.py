@@ -38,17 +38,23 @@ def get_all_possible_vectors(A : list, b : list):
         vectors.append(vec)
     return vectors
 
+#def solve_brute_force(A : list, b : list, c : list, v : float, targetSign : str):
 def solve_brute_force(A : list, b : list, c : list, v : float):
+    #if targetSign == "max":
+    #    c_tmp = [coef * -1 for coef in c]
+    #else:
+    c_tmp = [coef for coef in c]
+
     vectors = get_all_possible_vectors(A, b)
     if len(vectors) == 0:
         return []
 
     solution = vectors[0]
-    target_max = 0
+    target_max = np.dot(solution, c_tmp)
 
     for vec in vectors:
-        if np.dot(vec, c) > target_max:
-            target_max = np.dot(vec, c)
+        if np.dot(vec, c_tmp) > target_max:
+            target_max = np.dot(vec, c_tmp)
             solution = vec
 
     return solution

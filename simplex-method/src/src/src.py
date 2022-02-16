@@ -31,3 +31,7 @@ print_task_as_canon(A_dc, b_dc, c_dc, v_dc)
 print("solution:")
 print(convert_canon_solution_to_original(solve_brute_force(A_dc, b_dc, c_dc, v_dc), origSize_dc, origVar_dc))
 # МЕСТО ПОД РЕШЕНИЕ СИМПЛЕКСОМ
+A_dc_std, b_dc_std, c_dc_std, v_dc_std, origSize_dc_std, origVar_dc_std = parse_to_standart(A_d, b_d, c_d, v_d, limSigns_d, extrSign_d, valuesLimits_d)
+N_dc_s, B_dc_s, A_dc_s, b_dc_s, c_dc_s, v_dc_s = init_simplex(A_dc_std, b_dc_std, c_dc_std)
+print("simplex solution:")
+print(convert_canon_solution_to_original(simplex(N_dc_s, B_dc_s, A_dc_s, b_dc_s, c_dc_s, v_dc_s), origSize_dc_std, origVar_dc_std))

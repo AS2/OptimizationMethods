@@ -58,9 +58,9 @@ def parse_to_dual(A : list, b : list, c : list, v : float, limSigns : list, extr
     # sixly, set limits signs
     for i in range(len(c)):
         if i in valuesLimits:
-            limSigns_d.append("=")
-        else:
             limSigns_d.append(expr_d_sign)
+        else:
+            limSigns_d.append("=")
 
     # finaly, set values signs
     for i in range(limitsCnt):
