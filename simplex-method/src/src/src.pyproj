@@ -33,6 +33,9 @@
     <Compile Include="dual_task_manager.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="simplex_solver.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="src.py" />
     <Compile Include="standart_task_manager.py">
       <SubType>Code</SubType>

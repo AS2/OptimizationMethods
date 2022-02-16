@@ -4,7 +4,6 @@ def cormens_parse_to_canon(A : list, b : list, c : list, v : float, limSigns : l
     b_c = list()
     c_c = list()
     v_c = 0
-    valuesLimits_c
     originalSize = len(c)
     originalVars = list()
 
