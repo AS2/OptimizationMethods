@@ -1,5 +1,7 @@
 import copy
 
+EPS = 0.000000001
+
 def min_index(delta: list, B: list):
     for index, value in enumerate(delta):
         if index not in B:
@@ -61,7 +63,7 @@ def init_simplex(A, b, c):
     N_tmp, B_tmp, new_A, new_b, c_tmp, v_tmp = pivot(N_tmp, B_tmp, new_A, new_b, c_tmp, v_tmp, l, 0)
 
     x_opt = list()
-    while(max(c_tmp) > 0):
+    while(max(c_tmp) > EPS):
         N_tmp, B_tmp, new_A, new_b, c_tmp, v_tmp = simplex_iteration(N_tmp, B_tmp, new_A, new_b, c_tmp, v_tmp)
         
     for i in range(len(new_A)):
@@ -70,12 +72,12 @@ def init_simplex(A, b, c):
         else:
             x_opt.append(0)
 
-    if x_opt[0] == 0:
+    if abs(x_opt[0]) < EPS:
         # ЕСЛИ Х0 - БАЗИСНАЯ, ТО ЗАМЕЩАЕМ ЕЕ ЧТОБ СТАЛА НЕБАЗИСНОЙ
         if 0 in B_tmp:
             e_tmp = -1
-            for i in N:
-                if A[0][i] != 0:
+            for i in N_tmp:
+                if abs(new_A[0][i]) > EPS:
                     e_tmp = i
             N_tmp, B_tmp, new_A, new_b, c_tmp, v_tmp = pivot(N_tmp, B_tmp, new_A, new_b, c_tmp, v_tmp, 0, e_tmp)
 
@@ -157,13 +159,13 @@ def simplex_iteration(N: list, B: list, A: list, b: list, c: list, v: int):
 
     e = -1
     for j in N:
-        if c[j] > 0:
+        if c[j] > EPS:
             # ПРАВИЛО БЛЕНДА : ВЫБИРАЕМ НАИМЕНЬШИЙ ИНДЕКС НЕБАЗИСНОГО ЭЛЕМЕНТА НА ВХОД
             if (e != -1 and j < e) or e == -1:
                 e = j
 
     for i in B:
-        if A[i][e] > 0:
+        if A[i][e] > EPS:
             delta[i] = b[i] / A[i][e]
         else:
             delta[i] = "inf"
@@ -179,7 +181,7 @@ def simplex_iteration(N: list, B: list, A: list, b: list, c: list, v: int):
 def simplex(N: list, B: list, A: list, b: list, c: list, v: int):
     x = list()
 
-    while(max(c) > 0):
+    while(max(c) > EPS):
         N, B, A, b, c, v = simplex_iteration(N, B, A, b, c, v)
         
     for i in range(len(A)):
