@@ -8,7 +8,7 @@ from brute_force import solve_brute_force
 from simplex_solver import simplex
 from simplex_solver import init_simplex
 
-A, b, c, v, limSigns, extrSign, valuesLimits = read_task("test.txt")
+A, b, c, v, limSigns, extrSign, valuesLimits = read_task("task.txt")
 
 N_c, B_c, A_c, b_c, c_c, v_c, origSize_c, origVar_c = parse_to_canon(A, b, c, v, limSigns, extrSign, valuesLimits)
 print("-= CANON TASK =-")
@@ -40,6 +40,8 @@ print(np.dot(solution, c_d))
 # МЕСТО ПОД РЕШЕНИЕ СИМПЛЕКСОМ
 A_dc_std, b_dc_std, c_dc_std, v_dc_std, origSize_dc_std, origVar_dc_std = parse_to_standart(A_d, b_d, c_d, v_d, limSigns_d, extrSign_d, valuesLimits_d)
 N_dc_s, B_dc_s, A_dc_s, b_dc_s, c_dc_s, v_dc_s = init_simplex(A_dc_std, b_dc_std, c_dc_std)
+print(A_d)
+print(c_d)
 print("simplex solution:")
 solution = convert_canon_solution_to_original(simplex(N_dc_s, B_dc_s, A_dc_s, b_dc_s, c_dc_s, v_dc_s), origSize_dc_std, origVar_dc_std)
 print(solution)
