@@ -1,6 +1,8 @@
 from itertools import combinations
 import numpy as np
 
+EPS = 0.000000001
+
 def get_basis_matrs(A : np.ndarray):
     N = A.shape[0]
     M = A.shape[1]
@@ -14,6 +16,8 @@ def get_basis_matrs(A : np.ndarray):
         if np.linalg.det(basis_matr) != 0:
             basis_matrs.append(basis_matr)
             basis_combinations_indexes.append(i)
+        #basis_matrs.append(basis_matr)
+        #basis_combinations_indexes.append(i)
 
     return basis_matrs, basis_combinations_indexes
 
@@ -29,7 +33,7 @@ def get_all_possible_vectors(A : list, b : list):
 
     for i in range(len(basis_matrs)):
         solve = np.linalg.solve(basis_matrs[i], b)
-        if (len(solve[solve < 0]) != 0) or (len(solve[solve > 1e+15]) != 0):
+        if (len(solve[solve < -1 * EPS]) != 0) or (len(solve[solve > 1e+15]) != 0):
             continue
 
         vec = [0 for i in range(N)]

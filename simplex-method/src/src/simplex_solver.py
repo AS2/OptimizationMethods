@@ -41,8 +41,8 @@ def init_simplex(A, b, c):
             new_A[i + cols][j] = A[i][j]
 
     # ПРОВЕРКА НА НАЛИЧИЕ НАЧАЛЬНОГО БАЗИСНОГО РЕШЕНИЯ
-    k = new_b.index(min(new_b)) - cols
-    if new_b[k] > 0:
+    k = b.index(min(b))
+    if b[k] > 0:
         return N, B, new_A, new_b, c, 0
 
     new_b.insert(0, 0)
