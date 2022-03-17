@@ -21,6 +21,7 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="brute_force.py" />
     <Compile Include="potencial_method.py">
       <SubType>Code</SubType>
     </Compile>
