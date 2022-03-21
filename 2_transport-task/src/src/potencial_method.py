@@ -5,49 +5,27 @@ import enum
 import copy
 
 class whereWasEnd(enum.Enum):
-    ONLY_STARTED = -1
-    WENT_FROM_LEFT = 0
-    WENT_FROM_BOTTOM = 1
-    WENT_FROM_RIGHT = 2
-    WENT_FROM_TOP = 3
+    NONE = -1
+    HORZ = 0
+    VERT = 1
 
 
-# смотрим все непосещенные точки справа
-def look_all_pos_from_right(M : int, N : int, loopMap : list, pos_row : int,  pos_column : int):
+# смотрим все непосещенные точки на горизонтали
+def look_all_pos_on_horz(M : int, N : int, loopMap : list, pos_row : int,  pos_column : int):
     result = list()
 
-    for j in range(pos_column + 1, N):
-        if loopMap[pos_row][j][0] != IS_EMPTY and loopMap[pos_row][j][1] == -1:
+    for j in range(0, N):
+        if loopMap[pos_row][j][0] != IS_EMPTY and loopMap[pos_row][j][1] == -1 and j != pos_column:
             result.append([pos_row, j])
 
     return result
 
-# смотрим все непосещенные точки слева
-def look_all_pos_from_left(M : int, N : int, loopMap : list, pos_row : int,  pos_column : int):
+# смотрим все непосещенные точки на вертикали
+def look_all_pos_on_vert(M : int, N : int, loopMap : list, pos_row : int,  pos_column : int):
     result = list()
 
-    for j in range(0, pos_column):
-        if loopMap[pos_row][j][0] != IS_EMPTY and loopMap[pos_row][j][1] == -1:
-            result.append([pos_row, j])
-
-    return result
-
-# смотрим все непосещенные точки снизу
-def look_all_pos_from_bottom(M : int, N : int, loopMap : list, pos_row : int,  pos_column : int):
-    result = list()
-
-    for i in range(pos_row + 1, M):
-        if loopMap[i][pos_column][0] != IS_EMPTY and loopMap[i][pos_column][1] == -1:
-            result.append([i, pos_column])
-
-    return result
-
-# смотрим все непосещенные точки снизу
-def look_all_pos_from_top(M : int, N : int, loopMap : list, pos_row : int,  pos_column : int):
-    result = list()
-
-    for i in range(0, pos_row):
-        if loopMap[i][pos_column][0] != IS_EMPTY and loopMap[i][pos_column][1] == -1:
+    for i in range(0, M):
+        if loopMap[i][pos_column][0] != IS_EMPTY and loopMap[i][pos_column][1] == -1 and i != pos_row:
             result.append([i, pos_column])
 
     return result
@@ -79,35 +57,27 @@ def select_smallest_loop(allLoops : list):
 
     return smallestLoop
 
-# уходим в рекурсию
-def loop_recursion(M, N, loopMap, last_row, last_col, from_where, recursionLvl, allAnswers, currentLoop):
+# уходим в рекурсию для полного поиска всех циклов
+def loop_recursion_all(M, N, loopMap, last_row, last_col, from_where, recursionLvl, allAnswers, currentLoop):
     loopMap[last_row][last_col][1] = recursionLvl
     currentLoop.append([last_row, last_col])
 
     # если оказались рядом с началом -> добавляем цикл
     if isThereLoopEndNear(M, N, loopMap, last_row, last_col, recursionLvl):
         allAnswers.append(copy.deepcopy(currentLoop))
-    else:
+    # если двигались не по горизонтали
+    if from_where != whereWasEnd.HORZ:
         # ищем возможные циклы справа
-        if from_where != whereWasEnd.WENT_FROM_RIGHT and from_where != whereWasEnd.WENT_FROM_LEFT:
-            waysFromRight = look_all_pos_from_right(M, N, loopMap, last_row, last_col)
-            for way in waysFromRight:
-                loop_recursion(M, N, loopMap, way[0], way[1], whereWasEnd.WENT_FROM_RIGHT, recursionLvl + 1, allAnswers, currentLoop)
-        # ищем возможные циклы слева
-        if from_where != whereWasEnd.WENT_FROM_RIGHT and from_where != whereWasEnd.WENT_FROM_LEFT:
-            waysFromLeft = look_all_pos_from_left(M, N, loopMap, last_row, last_col)
-            for way in waysFromLeft:
-                loop_recursion(M, N, loopMap, way[0], way[1], whereWasEnd.WENT_FROM_LEFT, recursionLvl + 1, allAnswers, currentLoop)
+        waysHorz = look_all_pos_on_horz(M, N, loopMap, last_row, last_col)
+        for way in waysHorz:
+            loop_recursion_all(M, N, loopMap, way[0], way[1], whereWasEnd.HORZ, recursionLvl + 1, allAnswers, currentLoop)
+
+    # если двигались не по вертикали
+    if from_where != whereWasEnd.VERT:
         # ищем возможные циклы сверху
-        if from_where != whereWasEnd.WENT_FROM_TOP and from_where != whereWasEnd.WENT_FROM_BOTTOM:
-            waysFromTop = look_all_pos_from_top(M, N, loopMap, last_row, last_col)
-            for way in waysFromTop:
-                loop_recursion(M, N, loopMap, way[0], way[1], whereWasEnd.WENT_FROM_TOP, recursionLvl + 1, allAnswers, currentLoop)
-        # ищем возможные циклы справа
-        if from_where != whereWasEnd.WENT_FROM_TOP and from_where != whereWasEnd.WENT_FROM_BOTTOM:
-            waysFromBottom = look_all_pos_from_bottom(M, N, loopMap, last_row, last_col)
-            for way in waysFromBottom:
-                loop_recursion(M, N, loopMap, way[0], way[1], whereWasEnd.WENT_FROM_BOTTOM, recursionLvl + 1, allAnswers, currentLoop)
+        waysVert = look_all_pos_on_vert(M, N, loopMap, last_row, last_col)
+        for way in waysVert:
+            loop_recursion_all(M, N, loopMap, way[0], way[1], whereWasEnd.VERT, recursionLvl + 1, allAnswers, currentLoop)
 
     # все поиски закончены -> зачищаем свое наличие в карте и в текущем рассматриваемом цикле
     loopMap[last_row][last_col][1] = -1
@@ -119,12 +89,51 @@ def find_all_loops(M : int, N : int, plan : list, start_row : int, start_col : i
     # создаем двумерны массив пар вида (клетка начального плана, номер шага в рассматриваемом пути)
     loopMap = [[[plan[i][j], -1] for j in range(N)] for i in range(M)]
     allAnswers = list()
-
     currentLoop = list()
-    #currentLoop.append((start_x, start_y))
-    loop_recursion(M, N, loopMap, start_row, start_col, whereWasEnd.ONLY_STARTED, 0, allAnswers, currentLoop)
+
+    loop_recursion_all(M, N, loopMap, start_row, start_col, whereWasEnd.NONE, 0, allAnswers, currentLoop)
     smallestLoop = select_smallest_loop(allAnswers)
 
+    return smallestLoop
+
+# уходим в рекурсию чтоб искать наименьший цикл
+def loop_recursion_smallest(M, N, loopMap, last_row, last_col, from_where, recursionLvl, smallestLoop, currentLoop):
+    loopMap[last_row][last_col][1] = recursionLvl
+    currentLoop.append([last_row, last_col])
+
+    # если оказались рядом с началом -> добавляем цикл
+    if isThereLoopEndNear(M, N, loopMap, last_row, last_col, recursionLvl) and ((len(smallestLoop) != 0 and len(smallestLoop) > len(currentLoop)) or len(smallestLoop) == 0):
+        smallestLoop.clear()
+        for block in currentLoop:
+            smallestLoop.append(block)
+
+    elif ((len(smallestLoop) != 0 and len(smallestLoop) > recursionLvl) or len(smallestLoop) == 0):
+       # если двигались не по горизонтали
+        if from_where != whereWasEnd.HORZ:
+            # ищем возможные циклы справ
+            waysHorz = look_all_pos_on_horz(M, N, loopMap, last_row, last_col)
+            for way in waysHorz:
+                loop_recursion_smallest(M, N, loopMap, way[0], way[1], whereWasEnd.HORZ, recursionLvl + 1, smallestLoop, currentLoop)
+
+        # если двигались не по вертикали
+        if from_where != whereWasEnd.VERT:
+            # ищем возможные циклы сверху
+            waysVert = look_all_pos_on_vert(M, N, loopMap, last_row, last_col)
+            for way in waysVert:
+                loop_recursion_smallest(M, N, loopMap, way[0], way[1], whereWasEnd.VERT, recursionLvl + 1, smallestLoop, currentLoop)
+
+    # все поиски закончены -> зачищаем свое наличие в карте и в текущем рассматриваемом цикле
+    loopMap[last_row][last_col][1] = -1
+    currentLoop.pop(len(currentLoop) - 1)
+    return
+
+# функция старта поиска всех циклов. Здесь строим начальные вспомогательные данные, затем просто обходим рекурсивно абсолютно все возможные варианты пока не найдем цикл
+def find_smallest_loop(M : int, N : int, plan : list, start_row : int, start_col : int):
+    # создаем двумерны массив пар вида (клетка начального плана, номер шага в рассматриваемом пути)
+    loopMap = [[[plan[i][j], -1] for j in range(N)] for i in range(M)]
+    smallestLoop = list()
+    currentLoop = list()
+    loop_recursion_smallest(M, N, loopMap, start_row, start_col, whereWasEnd.NONE, 0, smallestLoop, currentLoop)
     return smallestLoop
 
 # находим минимальную поставку в цикле
@@ -155,52 +164,6 @@ def rewrite_plan(M : int, N : int, plan : list, loop : list):
 
     return plan
 
-# расчет потенциалов
-def get_potencials(M : int, N : int, plan : list, coefs : list):
-    # находим потенциалы
-    u = [0 for i in range(M)]
-    v = [0 for j in range(N)]
-
-    # делаем СЛАУ и решаем при помоще np.solve
-    A = [[0 for j in range(N + M)] for i in range(N + M)]
-    b = [0 for i in range(N + M)]
-
-    A[0][0] = 1
-    b[0] = 0
-    var = 1
-    for i in range(M):
-        for j in range(N):
-            if plan[i][j] != IS_EMPTY:
-                A[var][i] = 1
-                A[var][M + j] = -1
-                b[var] = coefs[i][j]
-                var = var + 1
-    x = np.linalg.solve(A, b)
-    for i in range(M + N):
-        if i < M:
-            u[i] = x[i]
-        else:
-            v[i - M] = x[i]
-
-    return u, v
-
-# проверка на оптимальность - если возвращается пустой массив - то решение оптимально,
-# иначе возвращается массив из двух элементов - координаты точки (row, column), с которой нужно будет строить цикл
-def isPlanOptimal(M : int, N : int, m_count : list, n_count : list, coefs : list, plan : list):
-    u, v = get_potencials(M, N, plan,  coefs)
-
-    hugestDelta = -1
-    newPoint = []
-    for i in range(M):
-        for j in range(N):
-            if plan[i][j] == IS_EMPTY and u[i] - v[j] > coefs[i][j]:
-                if u[i] - v[j] - coefs[i][j] > hugestDelta:
-                    newPoint = [i, j]
-                    hugestDelta = u[i] - v[j] - coefs[i][j]
-
-
-    return newPoint
-
 # решение транспортной задачи методом потенциалов
 def potencial_solution(M : int, N : int, m_count : list, n_count : list, coefs : list, printIters : bool):
     plan = north_west_corner_rule(M, N, m_count, n_count)
@@ -208,7 +171,7 @@ def potencial_solution(M : int, N : int, m_count : list, n_count : list, coefs :
     newPoint = isPlanOptimal(M, N, m_count, n_count, coefs, plan)
     iter = 0
     while len(newPoint) != 0:
-        loop = find_all_loops(M, N, plan, newPoint[0], newPoint[1])
+        loop = find_smallest_loop(M, N, plan, newPoint[0], newPoint[1])
         if printIters == True:
             print_iter(loop, plan, iter)
             iter += 1

@@ -8,7 +8,7 @@ from brute_force import solve_brute_force
 from simplex_solver import simplex
 from simplex_solver import init_simplex
 
-A, b, c, v, limSigns, extrSign, valuesLimits = read_task("test.txt")
+A, b, c, v, limSigns, extrSign, valuesLimits = read_task("task.txt")
 
 N_c, B_c, A_c, b_c, c_c, v_c, origSize_c, origVar_c = parse_to_canon(A, b, c, v, limSigns, extrSign, valuesLimits)
 print("-= CANON TASK =-")

@@ -1,3 +1,5 @@
+import numpy as np
+
 import copy
 
 IS_EMPTY = -1
@@ -107,4 +109,57 @@ def convert_into_ready_plan(M : int, N : int, plan : list):
         for j in range(N):
             if plan[i][j] == IS_EMPTY:
                 plan[i][j] = 0
+    return plan
+
+# расчет потенциалов
+def get_potencials(M : int, N : int, plan : list, coefs : list):
+    # находим потенциалы
+    u = [0 for i in range(M)]
+    v = [0 for j in range(N)]
+
+    # делаем СЛАУ и решаем при помоще np.solve
+    A = [[0 for j in range(N + M)] for i in range(N + M)]
+    b = [0 for i in range(N + M)]
+
+    A[0][0] = 1
+    b[0] = 0
+    var = 1
+    for i in range(M):
+        for j in range(N):
+            if plan[i][j] != IS_EMPTY:
+                A[var][i] = -1
+                A[var][M + j] = 1
+                b[var] = coefs[i][j]
+                var = var + 1
+    x = np.linalg.solve(A, b)
+    for i in range(M + N):
+        if i < M:
+            u[i] = x[i]
+        else:
+            v[i - M] = x[i]
+
+    return u, v
+
+# проверка на оптимальность - если возвращается пустой массив - то решение оптимально,
+# иначе возвращается массив из двух элементов - координаты точки (row, column), с которой нужно будет строить цикл
+def isPlanOptimal(M : int, N : int, m_count : list, n_count : list, coefs : list, plan : list):
+    u, v = get_potencials(M, N, plan,  coefs)
+
+    hugestDelta = -1
+    newPoint = []
+    for i in range(M):
+        for j in range(N):
+            if plan[i][j] == IS_EMPTY and v[j] - u[i] > coefs[i][j]:
+                if v[j] - u[i] - coefs[i][j] > hugestDelta:
+                    newPoint = [i, j]
+                    hugestDelta = v[j] - u[i] - coefs[i][j]
+
+
+    return newPoint
+
+def toTmp(plan : list):
+    for i in range(len(plan)):
+        for j in range(len(plan[0])):
+            if plan[i][j] == 0:
+                plan[i][j] = IS_EMPTY
     return plan

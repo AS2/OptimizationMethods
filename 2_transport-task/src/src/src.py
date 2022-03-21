@@ -39,6 +39,8 @@ min_task, A_matr, b_vec = to_canon(M, N, m_count, n_count, coefs)
 # удалить последнюю строчку
 A_matr.pop(len(A_matr) - 1)
 b_vec.pop(len(b_vec) - 1)
-brute_solution =solve_brute_force(A_matr, b_vec, min_task, 0)
+brute_solution = solve_brute_force(A_matr, b_vec, min_task, 0)
 brute_solution = np.reshape(brute_solution, (M, N))
 print_result(brute_solution, coefs)
+
+isPlanOptimal(M, N, m_count, n_count, coefs, toTmp(brute_solution))

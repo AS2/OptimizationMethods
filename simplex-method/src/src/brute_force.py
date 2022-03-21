@@ -48,11 +48,11 @@ def solve_brute_force(A : list, b : list, c : list, v : float):
         return []
 
     solution = vectors[0]
-    target_max = np.dot(solution, c)
+    target_min = np.dot(solution, c)
 
     for vec in vectors:
-        if np.dot(vec, c) > target_max:
-            target_max = np.dot(vec, c)
+        if np.dot(vec, c) < target_min:
+            target_min = np.dot(vec, c)
             solution = vec
 
     return solution

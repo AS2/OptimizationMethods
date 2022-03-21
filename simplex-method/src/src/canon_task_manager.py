@@ -20,7 +20,7 @@ def parse_to_canon(A : list, b : list, c : list, v : float, limSigns : list, ext
     originalVars = list()
 
     # first, remake target-function
-    if extrSign == "min":
+    if extrSign == "max":
         c_c = [coef * -1 for coef in c]
         v_c = v * -1
     else:
@@ -53,7 +53,7 @@ def parse_to_canon(A : list, b : list, c : list, v : float, limSigns : list, ext
 
 def print_task_as_canon(A : list, b : list, c : list, v : float):
     # BUILD TARGET FUNC
-    str_to_out = "max: z = " + str(v)
+    str_to_out = "min: z = " + str(v)
     for i in range(len(c)):
         str_to_out += " + " + str(c[i]) + " * x" + str(i+1)
     print(str_to_out)
