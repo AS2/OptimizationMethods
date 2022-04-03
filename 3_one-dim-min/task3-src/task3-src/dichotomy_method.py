@@ -11,7 +11,7 @@ class DichotomySolver:
 
         while abs(lBorder - rBorder) > eps:
             m = (lBorder + rBorder) / 2
-            delta = (rBorder - lBorder) / 100
+            delta = self.task.getDelta() * (lBorder - rBorder)
             y1 = self.task.f(m - delta)
             y2 = self.task.f(m + delta)
 

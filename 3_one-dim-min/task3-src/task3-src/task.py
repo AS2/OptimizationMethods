@@ -6,10 +6,10 @@ class Task:
     def __init__(self):
         self.a = 0.5
         self.b = 1
+        self.delta = 0.05
 
         self.counter = 0
         self.truAnswer = 0.682212417467 # ans of alt task (from wolfram)
-        # self.truAnswer = 0.5          # ans of given task (from wolfram)
         return
 
 
@@ -48,3 +48,6 @@ class Task:
 
     def getRightBorder(self):
         return self.b
+
+    def getDelta(self):
+        return self.delta
