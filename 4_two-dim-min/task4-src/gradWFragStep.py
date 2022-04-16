@@ -11,16 +11,16 @@ class GradWFragStep:
     def gradWFragStepSolver(self, eps : float):
         x_tmp = [0, 0]
         alpha_zero = 0.5
-        lambd = 0.5
+        lambd = 0.6
         delta = 0.5
 
         iters = 0
         all_x = list()
         all_x.append(x_tmp)
 
-        while True:
+        grad_f = self.task.grad_f(x_tmp)
+        while m.sqrt(u.secNorm(grad_f)) > eps:
             ak = alpha_zero
-            grad_f = self.task.grad_f(x_tmp)
             f = self.task.f(u.vecSum(x_tmp, u.vecMul(-ak, grad_f)))
             fk = self.task.f(x_tmp)
             
@@ -30,10 +30,8 @@ class GradWFragStep:
                 fk = self.task.f(x_tmp)
 
             x_tmp = u.vecSum(x_tmp, u.vecMul(-ak, grad_f))
+            grad_f = self.task.grad_f(x_tmp)
             all_x.append(x_tmp)
             iters += 1
-
-            if m.sqrt(u.secNorm(grad_f)) < eps:
-                break
 
         return all_x, iters
