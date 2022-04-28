@@ -1,5 +1,6 @@
-import numpy as np
-from math import cos, sin, exp
+from math import cos, sin
+
+ZERO_EPS = 0.000001
 
 class Task:
     def __init__(self):
@@ -8,10 +9,10 @@ class Task:
 
         # limits with '<= 0' sign
         self.limits = [
-            # sphere with Center (0, 0, 0) and Radius 3
-            lambda x : x[0] ** 2 + x[1] ** 2 + x[2] ** 2 - 9,
-            # cylinder with Center (0, 0, 0) and Radius 2
-            lambda x : x[0] ** 2 + x[1] ** 2 - 4,
+            # sphere with Center (0, 0, 0) and Radius 4
+            lambda x : x[0] ** 2 + x[1] ** 2 + x[2] ** 2 - 16,
+            # cylinder with Center (0, 0, 0) and Radius 3
+            lambda x : x[0] ** 2 + x[1] ** 2 - 9,
             # some more for 3rd coord, idk
             lambda x : x[2] ** 2 - 6.25,
         ]
@@ -61,7 +62,7 @@ class Task:
         indexes = list()
 
         for i in range(len(self.limits)):
-            if self.limits[i](x) == 0:
+            if abs(self.limits[i](x)) < ZERO_EPS:
                 indexes.append(i)
 
         return indexes
