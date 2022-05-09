@@ -1,7 +1,5 @@
 from math import cos, sin
 
-ZERO_EPS = 0.000001
-
 class Task:
     def __init__(self):
         self.dimention = 3
@@ -28,9 +26,9 @@ class Task:
                         2 * x[1],
                         0],
             # some more for 3rd coord, idk
-            lambda x : [2 * x[0],
+            lambda x : [0,
                         0,
-                        0]
+                        2 * x[2]]
         ]
 
         # limits with '= b' sign
@@ -57,30 +55,3 @@ class Task:
         df_2 = 2 * x2 - sin(x1 + x2) + 4
         df_3 = 8 * x3 + 8
         return [df_1, df_2, df_3]
-
-    def getActiveIndexes(self, x : list):
-        indexes = list()
-
-        for i in range(len(self.limits)):
-            if abs(self.limits[i](x)) < ZERO_EPS:
-                indexes.append(i)
-
-        return indexes
-
-    def getPassiveIndexes(self, x : list):
-        indexes = list()
-
-        for i in range(len(self.limits)):
-            if self.limits[i](x) < 0:
-                indexes.append(i)
-
-        return indexes
-
-    def getNearActiveIndexes(self, x : list, delta : float):
-        indexes = list()
-
-        for i in range(len(self.limits)):
-            if self.limits[i](x) <= 0 and self.limits[i](x) >= -delta:
-                indexes.append(i)
-
-        return indexes

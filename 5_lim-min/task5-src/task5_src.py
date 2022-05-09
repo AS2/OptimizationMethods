@@ -18,7 +18,7 @@ def main():
 
     zoitendijkSolver = z.Zoitendijk(currentTask)
 
-    solution = zoitendijkSolver.solver(1, 0.5, [0.0, 0.0, 0.0])
+    solution = zoitendijkSolver.solver(1, 0.5, [10.0, 10.0, 10.0])
     printResult(solution, currentTask.f(solution))
 
 main()
