@@ -78,7 +78,7 @@ class SecZoutendijk:
             # cylinder with Center (0, 0, 0) and Radius 3
             lambda x : x[0] ** 2 + x[1] ** 2 - 9 - x[3],
             # some more for 3rd coord, idk
-            lambda x : x[2] ** 2 - 6.25 - x[3],
+            lambda x : x[0] ** 2 - (8) - x[3],
         ]
 
         # gradients for limits with '<= 0' sign
@@ -94,9 +94,9 @@ class SecZoutendijk:
                         0,
                         -1],
             # some more for 3rd coord, idk
-            lambda x : [0,
+            lambda x : [2 * x[0],
                         0,
-                        2 * x[2],
+                        0,
                         -1]
         ]
 
@@ -160,7 +160,7 @@ class SecZoutendijk:
         secondCondition = True
 
         for lim in self.limits:
-            secondCondition = secondCondition and (lim(x_tmp) <= u.ZERO_EPS)
+            secondCondition = secondCondition and (lim(x_tmp) <= 0)
 
         return (firstCondition and secondCondition) == False
 

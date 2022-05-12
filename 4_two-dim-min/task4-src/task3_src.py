@@ -52,30 +52,30 @@ def plotSteps(steps : list):
     return
 
 def main():
-    EPS = [0.1, 0.01, 0.001]
+    EPS = [0.00001]
     currentTask = t.Task()
 
-    taskPlot()
+    #taskPlot()
     gradWFragStep = gwfs.GradWFragStep(currentTask)
     grafBFGS = gbfgs.GrafBFGS(currentTask)
 
     for ep in EPS:
         steps, iters = gradWFragStep.gradWFragStepSolver(ep)
         printResult(steps, iters, currentTask.f(steps[len(steps) - 1]), ep, "GRADIENT WITH FRAG STEP")
-        if (ep == EPS[len(EPS) - 1]):
-            plotSteps(steps)
+        #if (ep == EPS[len(EPS) - 1]):
+        #    plotSteps(steps)
 
     # Alghoritm - https://habr.com/ru/post/333356/
     for ep in EPS:
         steps, iters = grafBFGS.grafBFGSSolver(ep)
         printResult(steps, iters, currentTask.f(steps[len(steps) - 1]), ep, "BFGS METHOD")
-        if (ep == EPS[len(EPS) - 1]):
-            plotSteps(steps)
+        #if (ep == EPS[len(EPS) - 1]):
+        #    plotSteps(steps)
 
-    steps, iters = gradWFragStep.gradWFragStepSolver(0.000001)
-    print(steps[len(steps) - 1])
-    print(m.sin(steps[len(steps) - 1][0] + steps[len(steps) - 1][1]))
-    print(currentTask.grad_f(steps[len(steps) - 1]))
+    #steps, iters = gradWFragStep.gradWFragStepSolver(0.000001)
+    #print(steps[len(steps) - 1])
+    #print(m.sin(steps[len(steps) - 1][0] + steps[len(steps) - 1][1]))
+    #print(currentTask.grad_f(steps[len(steps) - 1]))
 
 
 main()

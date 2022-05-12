@@ -62,9 +62,7 @@ class Zoitendijk:
         activeLims = u.getActiveIndexes(self.task.limits, x_min)
         allRestrictionDeltas = list()
         for lim in range(len(self.task.limits)):
-            if lim in activeLims:
-                continue
-            else:
+            if lim not in activeLims:
                 allRestrictionDeltas.append(self.task.limits[lim](x_min))
         delta_0k = -max(allRestrictionDeltas)
         return (abs(eta_k) < u.ZERO_EPS and delta_k < delta_0k)
@@ -83,9 +81,11 @@ class Zoitendijk:
 
     # Function which will find minimum solving Zoitendijk method
     def solver(self, alpha : float, lambd : float, x_0 : list):
+        all_x = list()
         # find first position
         x_k = self.firstApproxim(x_0)
-        k = 0
+        all_x.append(x_k)
+
         alpha_k = alpha
         delta_k = 0.5
 
@@ -103,12 +103,12 @@ class Zoitendijk:
                 while self.isNeedToFragmentStep(x_k, alpha_k, s_k, eta_k):
                     alpha_k *= lambd
                 x_k = u.vecSum(x_k, u.vecMul(alpha_k, s_k))
+                all_x.append(x_k)
             else:
                 delta_k = lambd * delta_k
 
             # if need to leave - leave)
             if self.ifZoitendijkMethodNeedToStop(x_k, delta_k, eta_k):
                 break
-            k += 1
 
-        return x_k
+        return all_x

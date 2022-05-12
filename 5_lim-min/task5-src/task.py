@@ -12,7 +12,7 @@ class Task:
             # cylinder with Center (0, 0, 0) and Radius 3
             lambda x : x[0] ** 2 + x[1] ** 2 - 9,
             # some more for 3rd coord, idk
-            lambda x : x[2] ** 2 - 6.25,
+            lambda x : x[0] ** 2  - (8),
         ]
 
         # gradients for limits with '<= 0' sign
@@ -26,9 +26,9 @@ class Task:
                         2 * x[1],
                         0],
             # some more for 3rd coord, idk
-            lambda x : [0,
+            lambda x : [2 * x[0],
                         0,
-                        2 * x[2]]
+                        0]
         ]
 
         # limits with '= b' sign
